@@ -85,7 +85,7 @@ geom_bar(stat = "identity") +
 theme_minimal() +
 xlab("Year") + 
 ylab("Marriages") +
-scale_y_continuous(name="Marriages", labels=function(x) format(x, big.mark = "'", scientific = FALSE)) +
+scale_y_continuous(name="Marriages", labels=function(x) format(x, big.mark = "'", scientific = FALSE)) + # specify aesthetics of y-axis labels
 guides(fill=guide_legend(title="season", reverse = T)) +
 ggtitle("Marriages per Year and season") 
 
@@ -106,9 +106,10 @@ ggplot(data = marriageperstate14, aes(x = State, y = value, fill = factor(variab
   xlab("State") + 
   ylab("Marriages") +
   scale_y_continuous(breaks = seq(0,85000, 10000), name="Marriages", labels=function(x) format(abs(seq(0,85000,10000)), big.mark = "'", scientific = FALSE)) +
-  scale_x_discrete(labels=c("BaWü","Bay","Ber","Bra","Bre","Ham","Hes","Meck","Nie","Nor","Rhe","Saa","Sac","SaAn","Sch","Thü")) +
+  scale_x_discrete(labels=c("BaWü","Bay","Ber","Bra","Bre","Ham","Hes","Meck","Nie","Nor","Rhe","Saa","Sac","SaAn","Sch","Thü")) + # change x-axis labels
   theme(axis.text.x = element_text(angle = - 50, vjust = 0.9, hjust = 0.1)) +
   guides(fill=guide_legend(title="season", reverse = T)) +
   ggtitle("Marriages per state and season \n 2014") +
-  geom_hline(aes(yintercept = mean(value)), color = "black", linetype = "dashed", size = 0.5) +
-  annotate("text", x = 10, y = meanlabel, label="Mean", color="black", size = 4, hjust = 1)
+  geom_hline(aes(yintercept = mean(value)), color = "black", linetype = "dashed", size = 0.5) + # add meanline
+  annotate("text", x = 10, y = meanlabel, label="Mean", color="black", size = 4, hjust = 1) # add text to mean line
+
