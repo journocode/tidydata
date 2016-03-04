@@ -17,7 +17,7 @@ if(!require(readxl)) {
 }
 
 # set working directory
-#setwd("/Users/MarieLou/Desktop/Journocoding/GitHub")
+setwd("/Users/MarieLou/Desktop/Journocoding/GitHub")
 
 # load messy data in empty list with loop and read_excel
 messy_data <- list()
@@ -25,6 +25,8 @@ for(i in 1:7){
   messy_data[[i]] <- read_excel("tidydata/messydata.xlsx", sheet = i)
   messy_data[[i]]$timestamp <- i
 }
+
+messy_data
 
 # bind list to data frame
 messy_dataframe <- do.call(rbind.data.frame, messy_data)
@@ -80,12 +82,15 @@ marriageperyearnseason <- data_restructed %>%
   dplyr::summarise(value = sum(value)) 
 
 # ggplot the filtered data
-ggplot(data = marriageperyearnseason, aes(x = timestamp, y = value, fill = factor(variable), order = variable)) +  
+ggplot(data = marriageperyearnseason, aes(x = timestamp, y = value, 
+                                          fill = factor(variable), order = variable)) +  
 geom_bar(stat = "identity") +
 theme_minimal() +
 xlab("Year") + 
 ylab("Marriages") +
-scale_y_continuous(name="Marriages", labels=function(x) format(x, big.mark = "'", scientific = FALSE)) + # specify aesthetics of y-axis labels
+scale_y_continuous(name="Marriages", 
+                   # specify aesthetics of y-axis labels
+                   labels=function(x) format(x, big.mark = "'", scientific = FALSE)) + 
 guides(fill=guide_legend(title="season", reverse = T)) +
 ggtitle("Marriages per Year and season") 
 
@@ -98,18 +103,24 @@ marriageperstate14 <- data_restructed %>%
   dplyr::summarise(value = sum(value)) 
 
 # stacked barplot with ggplot (incl. dashed meanline)
-meanlabel <- mean(marriageperstate14$value)-2000 # y-coordinate of label for meanline
+meanlabel <- (sum(marriageperstate14$value)/16)-2000 # y-coordinate of label for meanline
 
-ggplot(data = marriageperstate14, aes(x = State, y = value, fill = factor(variable), order = variable)) +  
+ggplot(data = marriageperstate14, aes(x = State, y = value, 
+                                      fill = factor(variable), order = variable)) +  
   geom_bar(stat = "identity") +
   theme_minimal() +
   xlab("State") + 
   ylab("Marriages") +
-  scale_y_continuous(breaks = seq(0,85000, 10000), name="Marriages", labels=function(x) format(abs(seq(0,85000,10000)), big.mark = "'", scientific = FALSE)) +
-  scale_x_discrete(labels=c("BaWü","Bay","Ber","Bra","Bre","Ham","Hes","Meck","Nie","Nor","Rhe","Saa","Sac","SaAn","Sch","Thü")) + # change x-axis labels
+  scale_y_continuous(breaks = seq(0,85000, 10000), name="Marriages", 
+                     labels=function(x) format(abs(seq(0,85000,10000)), 
+                                               big.mark = "'", scientific = FALSE)) +
+  scale_x_discrete(labels=c("BaWü","Bay","Ber","Bra","Bre","Ham","Hes","Meck","Nie","Nor",
+                            "Rhe","Saa","Sac","SaAn","Sch","Thü")) + # change x-axis labels
   theme(axis.text.x = element_text(angle = - 50, vjust = 0.9, hjust = 0.1)) +
   guides(fill=guide_legend(title="season", reverse = T)) +
   ggtitle("Marriages per state and season \n 2014") +
-  geom_hline(aes(yintercept = mean(value)), color = "black", linetype = "dashed", size = 0.5) + # add meanline
-  annotate("text", x = 10, y = meanlabel, label="Mean", color="black", size = 4, hjust = 1) # add text to mean line
+  geom_hline(aes(yintercept = (sum(value)/16)), color = "black", linetype = "dashed", 
+             size = 0.5) + # add meanline
+  annotate("text", x = 10, y = meanlabel, label="Mean", color="black", 
+           size = 4, hjust = 1) # add text to mean line
 
