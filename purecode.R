@@ -87,7 +87,6 @@ ggplot(data = marriageperyearnseason, aes(x = timestamp, y = value,
 geom_bar(stat = "identity") +
 theme_minimal() +
 xlab("Year") + 
-ylab("Marriages") +
 scale_y_continuous(name="Marriages", 
                    # specify aesthetics of y-axis labels
                    labels=function(x) format(x, big.mark = "'", scientific = FALSE)) + 
@@ -110,7 +109,6 @@ ggplot(data = marriageperstate14, aes(x = State, y = value,
   geom_bar(stat = "identity") +
   theme_minimal() +
   xlab("State") + 
-  ylab("Marriages") +
   scale_y_continuous(breaks = seq(0,85000, 10000), name="Marriages", 
                      labels=function(x) format(abs(seq(0,85000,10000)), 
                                                big.mark = "'", scientific = FALSE)) +
